@@ -21,18 +21,17 @@ public class ProximitySimulator {
 
   public void startSimulatingProximity() {
     scheduler.scheduleAtFixedRate(() -> {
-      double proximity = 0 + (100 * random.nextDouble()); // Generate random proximity between 0 and 100 cm
+      int proximity = random.nextInt(2); // Generate random proximity: 0 or 1
 
       var proximitySensor = new Proximity()
-          .setUnitOfMeasure("cm")
-          .setValue(proximity)
+          .setUnitOfMeasure("binary")
+          .setValue((double) proximity)
           .setLocation(getRandomLocation())
           .setMeasuredOn(Instant.now());
 
       proximityRepository.save(proximitySensor);
     }, 0, 5, TimeUnit.SECONDS); // Generate every 5 seconds
   }
-
   private Location getRandomLocation() {
     var locations = Location.values();
     return locations[random.nextInt(locations.length)];
